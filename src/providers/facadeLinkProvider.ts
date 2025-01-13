@@ -10,6 +10,7 @@ import {
 	Uri,
 } from "vscode";
 import path from "path";
+import fs from 'fs';
 
 export default class FacadeLinkProvider implements DocumentLinkProvider {
 	public async provideDocumentLinks(
@@ -25,7 +26,7 @@ export default class FacadeLinkProvider implements DocumentLinkProvider {
 
 			if (result) {
 				const [_, facadeClass, facadeMethod] = result;
-				const facadeReg = new RegExp(`use Facades\\\\(.+?)\\\\${facadeClass}`);
+				const facadeReg = new RegExp(`use Facades\\\\(.+?)\\\\${facadeClass};`);
 				const res = doc.getText().match(facadeReg);
 
 				if (res) {
@@ -40,6 +41,10 @@ export default class FacadeLinkProvider implements DocumentLinkProvider {
 					const filePath = path.normalize(
 						path.join(workspaceFolder, facadePath, `${facadeClass}.php`)
 					);
+
+					if (!fs.existsSync(filePath)) {
+						continue;
+					}
 
 					// Open the target document
 					const targetDoc = await workspace.openTextDocument(filePath);

@@ -2,7 +2,7 @@
 	"name": "laravel-goto-facade",
 	"displayName": "Laravel Goto Facade",
 	"description": "Quick jump to facade",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"publisher": "enxas-laravel-goto-facade",
     "license": "MIT",
 	"icon": "images/icon.png",
