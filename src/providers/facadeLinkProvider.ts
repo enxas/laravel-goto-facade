@@ -17,7 +17,7 @@ export default class FacadeLinkProvider implements DocumentLinkProvider {
 		doc: TextDocument
 	): Promise<DocumentLink[]> {
 		const documentLinks = [];
-		const reg = /(\w+)::(\w+)/g;
+		const reg = new RegExp(/(\w+)::(\w+)/);
 		const linesCount = doc.lineCount;
 
 		for (let index = 0; index < linesCount; index++) {
@@ -49,7 +49,7 @@ export default class FacadeLinkProvider implements DocumentLinkProvider {
 					// Open the target document
 					const targetDoc = await workspace.openTextDocument(filePath);
 					const text = targetDoc.getText();
-					const facadeMethodReg = new RegExp(`function ${facadeMethod}`, "g");
+					const facadeMethodReg = new RegExp(`function ${facadeMethod}.*\\(`, "gs");
 					let match;
 
 					while ((match = facadeMethodReg.exec(text)) !== null) {
